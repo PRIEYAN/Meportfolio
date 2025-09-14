@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { FaBars, FaTimes, FaGithub, FaLinkedin, FaInstagram, FaChevronDown, FaPython, FaJs, FaAws, FaDocker, FaLinux, FaGitAlt, FaStar, FaCodeBranch, FaEye, FaExternalLinkAlt } from 'react-icons/fa';
 import { SiMongodb } from 'react-icons/si';
 import axios from 'axios';
+
+// Import images directly
 import binorixImage from './assets/binorixPitch.jpeg';
 import profileImage from './assets/profile.jpeg';
-import teamAVA from './assets/teamAVA.jpeg';
-import teamBNB from './assets/teamBNB.jpeg';
-import teamFOSS from './assets/teamFOSS.jpeg';
-import zypherPitch from './assets/zypherPitch.jpeg';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,7 +72,7 @@ const Hero = () => {
         <div className="hero-content">
           <img 
             src={profileImage} 
-            
+            alt="Prieyan MN Profile"
             className="hero-image"
           />
           
@@ -266,151 +264,6 @@ const Experience = () => {
   );
 };
 
-const Achievements = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  
-  // Easy to add new images - just add them to this array
-  const achievements = [
-    {
-      id: 1,
-      image: teamAVA,
-      title: "Team AVA",
-      description: "Achievement description for Team AVA"
-    },
-    {
-      id: 2,
-      image: teamBNB,
-      title: "Team BNB",
-      description: "Achievement description for Team BNB"
-    },
-    {
-      id: 3,
-      image: teamFOSS,
-      title: "Team FOSS",
-      description: "Achievement description for Team FOSS"
-    },
-    {
-      id: 4,
-      image: zypherPitch,
-      title: "Zypher Pitch",
-      description: "Achievement description for Zypher Pitch"
-    }
-  ];
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % achievements.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + achievements.length) % achievements.length);
-  };
-
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-  };
-
-  return (
-    <section id="achievements" className="section bg-gray-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="section-title">Achievements</h2>
-          <p className="section-subtitle">
-            Highlights of my journey and accomplishments
-          </p>
-
-          <div className="max-w-4xl mx-auto">
-            {/* Slideshow Container */}
-            <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden">
-              {/* Main Image Display */}
-              <div className="relative h-96 overflow-hidden">
-                <motion.div
-                  key={currentSlide}
-                  initial={{ opacity: 0, x: 300 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -300 }}
-                  transition={{ duration: 0.5 }}
-                  className="absolute inset-0"
-                >
-                  <img
-                    src={achievements[currentSlide].image}
-                    alt={achievements[currentSlide].title}
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
-
-                {/* Navigation Arrows */}
-                <button
-                  onClick={prevSlide}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-                >
-                  <FaChevronDown className="rotate-90" />
-                </button>
-                <button
-                  onClick={nextSlide}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-                >
-                  <FaChevronDown className="-rotate-90" />
-                </button>
-              </div>
-
-              {/* Content Section */}
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                  {achievements[currentSlide].title}
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  {achievements[currentSlide].description}
-                </p>
-
-                {/* Slide Indicators */}
-                <div className="flex justify-center space-x-3">
-                  {achievements.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => goToSlide(index)}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                        index === currentSlide
-                          ? 'bg-blue-600 scale-125'
-                          : 'bg-gray-300 hover:bg-gray-400'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Thumbnail Navigation */}
-            <div className="mt-6 grid grid-cols-4 gap-4">
-              {achievements.map((achievement, index) => (
-                <button
-                  key={achievement.id}
-                  onClick={() => goToSlide(index)}
-                  className={`relative overflow-hidden rounded-lg transition-all duration-300 ${
-                    index === currentSlide
-                      ? 'ring-4 ring-blue-500 scale-105'
-                      : 'hover:scale-105'
-                  }`}
-                >
-                  <img
-                    src={achievement.image}
-                    alt={achievement.title}
-                    className="w-full h-20 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/20 hover:bg-black/10 transition-colors duration-300" />
-                </button>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
 
 const Projects = () => {
   const [repositories, setRepositories] = useState([]);
@@ -511,8 +364,11 @@ const Projects = () => {
   };
 
   const getProjectImage = (repo) => {
-    // Use binorix image for all projects
-    return binorixImage;
+    // Prefer repository Open Graph card from GitHub; fallback placeholder
+    if (repo && repo.full_name) {
+      return `https://opengraph.githubassets.com/1/${repo.full_name}`;
+    }
+    return 'https://via.placeholder.com/1200x630/0f172a/ffffff?text=Repository';
   };
 
   if (loading) {

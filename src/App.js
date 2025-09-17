@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FaBars, FaTimes, FaGithub, FaLinkedin, FaInstagram, FaChevronDown, FaPython, FaJs, FaAws, FaDocker, FaLinux, FaGitAlt, FaStar, FaCodeBranch, FaEye, FaExternalLinkAlt } from 'react-icons/fa';
-import { SiMongodb } from 'react-icons/si';
-import axios from 'axios';
+import { Menu, X, Github, Linkedin, Instagram, ChevronDown } from 'lucide-react';
+import Achievements from './Achievements';
 
-// Import images directly
-import binorixImage from './assets/binorixPitch.jpeg';
-import profileImage from './assets/profile.jpeg';
+// Placeholder images - replace with your actual images
+const profileImage = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80";
+const binorixImage = "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,26 +32,66 @@ const Header = () => {
   };
 
   return (
-    <nav className={`nav ${isScrolled ? 'scrolled' : ''}`}>
-      <div className="container">
-        <div className="nav-container">
-          <a href="#home" className="nav-logo" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-lg' 
+        : 'bg-transparent'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center py-4">
+          <button
+            onClick={() => scrollToSection('home')}
+            className={`text-2xl font-bold transition-colors ${
+              isScrolled ? 'text-gray-900' : 'text-white'
+            }`}
+          >
             Prieyan MN
-          </a>
+          </button>
 
-          <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-            <li><a href="#home" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>Home</a></li>
-            <li><a href="#about" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}>About</a></li>
-            <li><a href="#skills" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('skills'); }}>Skills</a></li>
-            <li><a href="#experience" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('experience'); }}>Experience</a></li>
-            <li><a href="#projects" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('projects'); }}>Projects</a></li>
-            <li><a href="#contact" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Contact</a></li>
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex space-x-8">
+            {['home', 'about', 'achievements', 'skills', 'experience', 'projects', 'contact'].map((section) => (
+              <li key={section}>
+                <button
+                  onClick={() => scrollToSection(section)}
+                  className={`capitalize font-medium transition-colors hover:text-blue-600 ${
+                    isScrolled ? 'text-gray-700' : 'text-white/90 hover:text-white'
+                  }`}
+                >
+                  {section}
+                </button>
+              </li>
+            ))}
           </ul>
 
-          <button className="nav-toggle" onClick={toggleMenu}>
-            {isMenuOpen ? <FaTimes /> : <FaBars />}
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className={`md:hidden p-2 rounded-lg transition-colors ${
+              isScrolled ? 'text-gray-900' : 'text-white'
+            }`}
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white rounded-lg shadow-lg mx-4 mb-4 p-4">
+            <ul className="space-y-3">
+              {['home', 'about', 'achievements', 'skills', 'experience', 'projects', 'contact'].map((section) => (
+                <li key={section}>
+                  <button
+                    onClick={() => scrollToSection(section)}
+                    className="block w-full text-left capitalize text-gray-700 font-medium hover:text-blue-600 py-2"
+                  >
+                    {section}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   );
@@ -67,54 +106,82 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="hero">
-      <div className="container">
-        <div className="hero-content">
+    <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden">
+      {/* Background Animation */}
+      <div className="absolute inset-0">
+        {/* Background pattern (escaped to avoid JSX parser errors) */}
+        <div className="absolute inset-0 opacity-30" style={{
+          backgroundImage: "url( data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E )",
+          backgroundSize: '60px 60px'
+        }}></div>
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+        <div className="mb-8">
           <img 
             src={profileImage} 
             alt="Prieyan MN Profile"
-            className="hero-image"
+            className="w-40 h-40 rounded-full mx-auto mb-8 border-4 border-white/20 shadow-2xl object-cover"
           />
           
-          <h1 className="hero-title">Prieyan MN</h1>
-          <p className="hero-subtitle">Backend Developer | Cloud Enthusiast | Full-Stack Engineer</p>
+          <h1 className="text-5xl md:text-7xl font-bold mb-4">
+            Prieyan MN
+          </h1>
+          <p className="text-xl md:text-2xl text-blue-200 mb-6">
+            Backend Developer | Cloud Enthusiast | Full-Stack Engineer
+          </p>
           
-          <p className="hero-description">
+          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
             Passionate about building scalable web and mobile applications. 
             I specialize in backend development with Python, JavaScript, and cloud technologies.
           </p>
 
-          <div className="hero-buttons">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <button 
-              className="btn btn-primary" 
               onClick={() => scrollToSection('contact')}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
             >
               Get in Touch
             </button>
             <button 
-              className="btn btn-secondary" 
               onClick={() => scrollToSection('projects')}
+              className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-3 rounded-full font-semibold transition-all duration-300"
             >
               View My Work
             </button>
           </div>
 
-          <div className="social-links">
-            <a href="https://github.com/prieyan" target="_blank" rel="noopener noreferrer" className="social-link">
-              <FaGithub />
+          <div className="flex justify-center space-x-6">
+            <a 
+              href="https://github.com/prieyan" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-white hover:text-blue-400 transition-colors p-3 rounded-full hover:bg-white/10"
+            >
+              <Github className="w-6 h-6" />
             </a>
-            <a href="https://www.linkedin.com/in/prieyanmn/" target="_blank" rel="noopener noreferrer" className="social-link">
-              <FaLinkedin />
+            <a 
+              href="https://www.linkedin.com/in/prieyanmn/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-white hover:text-blue-400 transition-colors p-3 rounded-full hover:bg-white/10"
+            >
+              <Linkedin className="w-6 h-6" />
             </a>
-            <a href="https://www.instagram.com/prie.aur/" target="_blank" rel="noopener noreferrer" className="social-link">
-              <FaInstagram />
+            <a 
+              href="https://www.instagram.com/prie.aur/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-white hover:text-blue-400 transition-colors p-3 rounded-full hover:bg-white/10"
+            >
+              <Instagram className="w-6 h-6" />
             </a>
           </div>
         </div>
       </div>
       
-      <div className="scroll-indicator">
-        <FaChevronDown />
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+        <ChevronDown className="w-6 h-6" />
       </div>
     </section>
   );
@@ -122,33 +189,50 @@ const Hero = () => {
 
 const About = () => {
   return (
-    <section id="about" className="section about">
-      <div className="container">
-        <h2 className="section-title">About Me</h2>
-        <p className="section-subtitle">
-          Passionate backend developer with a focus on scalable solutions and cloud technologies
-        </p>
+    <section id="about" className="py-20 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            About Me
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Passionate backend developer with a focus on scalable solutions and cloud technologies
+          </p>
+          <div className="mt-8 w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto"></div>
+        </div>
 
-        <div className="about-content">
-          <div>
-            <p className="about-text">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <p className="text-lg text-gray-700 leading-relaxed">
               I'm a passionate backend developer with expertise in Python (Flask), JavaScript (Express.js), 
               and cloud technologies like AWS. I specialize in building scalable and secure web and mobile 
               applications. I actively contribute to open-source projects and solve real-world problems.
             </p>
-            <p className="about-text">
+            <p className="text-lg text-gray-700 leading-relaxed">
               With a strong foundation in Linux system administration and DevOps practices, I create 
               efficient, secure, and high-performance backend solutions. I enjoy mentoring others and 
               exploring innovative technologies that can redefine user experiences.
             </p>
+            
+            <div className="grid grid-cols-2 gap-6 pt-6">
+              <div className="text-center p-6 bg-blue-50 rounded-lg">
+                <div className="text-3xl font-bold text-blue-600 mb-2">50+</div>
+                <div className="text-gray-600">Projects Completed</div>
+              </div>
+              <div className="text-center p-6 bg-green-50 rounded-lg">
+                <div className="text-3xl font-bold text-green-600 mb-2">3+</div>
+                <div className="text-gray-600">Years Experience</div>
+              </div>
+            </div>
           </div>
           
-          <div>
+          <div className="relative">
             <img 
               src={binorixImage} 
               alt="Binorix Pitch Presentation" 
-              className="about-image"
+              className="w-full h-96 object-cover rounded-2xl shadow-2xl"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-600/20 to-transparent rounded-2xl"></div>
           </div>
         </div>
       </div>
@@ -160,481 +244,48 @@ const Skills = () => {
   const skills = [
     {
       name: 'Python',
-      icon: FaPython,
-      description: 'Expert in Python development with Flask framework'
+      description: 'Expert in Python development with Flask framework',
+      color: 'bg-blue-500'
     },
     {
       name: 'JavaScript',
-      icon: FaJs,
-      description: 'Proficient in JavaScript and Node.js development'
+      description: 'Proficient in JavaScript and Node.js development',
+      color: 'bg-yellow-500'
     },
     {
       name: 'AWS',
-      icon: FaAws,
-      description: 'Cloud infrastructure and deployment expertise'
+      description: 'Cloud infrastructure and deployment expertise',
+      color: 'bg-orange-500'
     },
     {
       name: 'MongoDB',
-      icon: SiMongodb,
-      description: 'NoSQL database design and optimization'
+      description: 'NoSQL database design and optimization',
+      color: 'bg-green-500'
     },
     {
       name: 'Docker',
-      icon: FaDocker,
-      description: 'Containerization and orchestration'
+      description: 'Containerization and orchestration',
+      color: 'bg-blue-600'
     },
     {
       name: 'Linux',
-      icon: FaLinux,
-      description: 'System administration and DevOps'
+      description: 'System administration and DevOps',
+      color: 'bg-gray-800'
     },
     {
       name: 'Git',
-      icon: FaGitAlt,
-      description: 'Version control and collaboration'
+      description: 'Version control and collaboration',
+      color: 'bg-red-500'
+    },
+    {
+      name: 'React',
+      description: 'Frontend development and component architecture',
+      color: 'bg-cyan-500'
     }
   ];
 
   return (
-    <section id="skills" className="section skills">
-      <div className="container">
-        <h2 className="section-title">Skills</h2>
-        <p className="section-subtitle">
-          Technologies and tools I work with to build amazing solutions
-        </p>
-
-        <div className="grid grid-3">
-          {skills.map((skill, index) => (
-            <div key={index} className="skill-card">
-              <div className="skill-icon">
-                <skill.icon />
-              </div>
-              <h3 className="skill-name">{skill.name}</h3>
-              <p className="skill-description">{skill.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Experience = () => {
-  const experiences = [
-    {
-      role: 'Core Backend Developer Intern',
-      company: 'JustEverything (Tesys India Private Limited)',
-      duration: 'March 2024 - July 2024',
-      description: 'Developed core backend infrastructure for mobile application using modern technologies. Worked with AWS services for scalable cloud deployments and contributed to mobile app development that achieved beta launch on Play Store.'
-    },
-    {
-      role: 'Founder & Lead Developer',
-      company: 'Zero2Site Digital Agency',
-      duration: '2023 - Present',
-      description: 'Founded and lead a digital agency specializing in startup solutions. Build products for startups, customers, and established companies with end-to-end development from concept to deployment.'
-    },
-    {
-      role: 'Freelance Backend Developer',
-      company: 'Independent',
-      duration: '2022 - Present',
-      description: 'Provide backend development services to various clients. Specialize in scalable web applications, API development, and cloud solutions for startups and established companies.'
-    }
-  ];
-
-  return (
-    <section id="experience" className="section experience">
-      <div className="container">
-        <h2 className="section-title">Experience</h2>
-        <p className="section-subtitle">
-          My professional journey and notable accomplishments
-        </p>
-
-        <div>
-          {experiences.map((exp, index) => (
-            <div key={index} className="experience-item">
-              <h3 className="experience-role">{exp.role}</h3>
-              <p className="experience-company">{exp.company}</p>
-              <p className="experience-duration">{exp.duration}</p>
-              <p className="experience-description">{exp.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-
-const Projects = () => {
-  const [repositories, setRepositories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchRepositories = async () => {
-      try {
-        console.log('Fetching repositories from https://github.com/prieyan...');
-        setLoading(true);
-        
-        // Use CORS proxy to bypass GitHub API rate limits
-        const githubApiUrl = 'https://api.github.com/users/prieyan/repos?sort=stars&per_page=20&type=public';
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(githubApiUrl)}`;
-        
-        const response = await fetch(proxyUrl, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-        
-        if (!response.ok) {
-          throw new Error(`API error: ${response.status}`);
-        }
-        
-        const repos = await response.json();
-        console.log(`Successfully fetched ${repos.length} repositories from your GitHub account`);
-        
-        // Sort by stars (descending) and then by updated date
-        const sortedRepos = repos
-          .sort((a, b) => {
-            // Primary sort: by stars (highest first)
-            if (b.stargazers_count !== a.stargazers_count) {
-              return b.stargazers_count - a.stargazers_count;
-            }
-            // Secondary sort: by updated date (most recent first)
-            return new Date(b.updated_at) - new Date(a.updated_at);
-          })
-          .slice(0, 12); // Take top 12
-
-        // Debug: Log the sorted repositories
-        console.log('Your repositories sorted by stars:', sortedRepos.map(repo => ({
-          name: repo.name,
-          stars: repo.stargazers_count,
-          forks: repo.forks_count,
-          language: repo.language,
-          updated: repo.updated_at,
-          url: repo.html_url
-        })));
-
-        setRepositories(sortedRepos);
-        setError(null);
-        
-      } catch (err) {
-        console.error('Failed to fetch from GitHub API:', err);
-        setError('Unable to fetch repositories from GitHub. Please check your internet connection.');
-        setRepositories([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRepositories();
-  }, []);
-
-  const getLanguageColor = (language) => {
-    const colors = {
-      'Python': '#3776ab',
-      'JavaScript': '#f7df1e',
-      'TypeScript': '#3178c6',
-      'Java': '#f89820',
-      'C++': '#00599c',
-      'Go': '#00add8',
-      'HTML': '#e34f26',
-      'CSS': '#1572b6',
-      'Shell': '#89e051',
-      'Dockerfile': '#2496ed',
-      'PHP': '#777bb4',
-      'Ruby': '#cc342d',
-      'Swift': '#fa7343',
-      'Kotlin': '#7f52ff',
-      'Rust': '#000000',
-      'C': '#a8b9cc',
-      'C#': '#239120'
-    };
-    return colors[language] || '#6b7280';
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
-    });
-  };
-
-  const getProjectImage = (repo) => {
-    // Prefer repository Open Graph card from GitHub; fallback placeholder
-    if (repo && repo.full_name) {
-      return `https://opengraph.githubassets.com/1/${repo.full_name}`;
-    }
-    return 'https://via.placeholder.com/1200x630/0f172a/ffffff?text=Repository';
-  };
-
-  if (loading) {
-    return (
-      <section id="projects" className="section projects">
-        <div className="container">
-          <h2 className="section-title">Projects</h2>
-          <p className="section-subtitle">
-            Some of my recent work and side projects
-          </p>
-          <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-            <div style={{ 
-              display: 'inline-block',
-              width: '40px',
-              height: '40px',
-              border: '4px solid #e2e8f0',
-              borderTop: '4px solid #3b82f6',
-              borderRadius: '50%',
-              animation: 'spin 1s linear infinite'
-            }}></div>
-            <p style={{ marginTop: '1rem', color: '#64748b' }}>Loading projects...</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <section id="projects" className="section projects">
-      <div className="container">
-        <h2 className="section-title">Projects</h2>
-        <p className="section-subtitle">
-          My GitHub repositories sorted by popularity (stars)
-        </p>
-
-        {error ? (
-          <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#fef3c7', borderRadius: '0.5rem', marginBottom: '2rem' }}>
-            <p style={{ color: '#92400e', marginBottom: '1rem', fontWeight: '500' }}>
-              ⚠️ {error}
-            </p>
-            <a 
-              href="https://github.com/prieyan" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="btn btn-primary"
-            >
-              <FaGithub /> Visit GitHub Profile
-            </a>
-          </div>
-        ) : null}
-        
-        <div className="grid grid-3">
-            {repositories.map((repo) => (
-              <div key={repo.id} className="project-card">
-                <img 
-                  src={getProjectImage(repo)} 
-                  alt={repo.name} 
-                  className="project-image"
-                />
-                <div className="project-content">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                    <h3 className="project-title" style={{ margin: 0, flex: 1, marginRight: '0.5rem' }}>
-                      {repo.name}
-                    </h3>
-                    <a
-                      href={repo.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ color: '#64748b', fontSize: '0.875rem' }}
-                    >
-                      <FaExternalLinkAlt />
-                    </a>
-                  </div>
-
-                  {repo.description && (
-                    <p className="project-description" style={{ marginBottom: '1rem' }}>
-                      {repo.description}
-                    </p>
-                  )}
-
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                    {repo.language && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <div
-                          style={{ 
-                            width: '12px', 
-                            height: '12px', 
-                            borderRadius: '50%',
-                            backgroundColor: getLanguageColor(repo.language)
-                          }}
-                        ></div>
-                        <span style={{ fontSize: '0.875rem', color: '#64748b' }}>{repo.language}</span>
-                      </div>
-                    )}
-                    <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
-                      Updated {formatDate(repo.updated_at)}
-                    </span>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.875rem', color: '#64748b' }}>
-                        <FaStar />
-                        <span>{repo.stargazers_count}</span>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.875rem', color: '#64748b' }}>
-                        <FaCodeBranch />
-                        <span>{repo.forks_count}</span>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.875rem', color: '#3b82f6', fontWeight: '600', backgroundColor: '#eff6ff', padding: '0.25rem 0.5rem', borderRadius: '0.375rem' }}>
-                        <FaStar />
-                        <span>{repo.stargazers_count || 0} stars</span>
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.875rem', color: '#64748b' }}>
-                      <FaEye />
-                      <span>{repo.watchers_count}</span>
-                    </div>
-                  </div>
-
-                  <div className="project-links">
-                    <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="project-link">
-                      <FaGithub /> View Code
-                    </a>
-                    {repo.homepage && (
-                      <a href={repo.homepage} target="_blank" rel="noopener noreferrer" className="project-link">
-                        <FaExternalLinkAlt /> Live Demo
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
-
-        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
-          <a
-            href="https://github.com/prieyan"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary"
-          >
-            <FaGithub /> View All Repositories
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Message sent successfully! I\'ll get back to you soon.');
-    setFormData({ name: '', email: '', message: '' });
-  };
-
-  return (
-    <section id="contact" className="section contact">
-      <div className="container">
-        <h2 className="section-title">Contact</h2>
-        <p className="section-subtitle">
-          Let's work together on your next project
-        </p>
-
-        <div className="contact-content">
-          <div className="contact-form">
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name" className="form-label">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="form-input"
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="email" className="form-label">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="form-input"
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="message" className="form-label">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="form-textarea"
-                  required
-                ></textarea>
-              </div>
-              
-              <button type="submit" className="btn btn-primary">
-                Send Message
-              </button>
-            </form>
-          </div>
-
-          <div className="contact-info">
-            <h3>Get In Touch</h3>
-            <p>
-              I'm always interested in new opportunities, whether it's freelance work, 
-              collaboration on exciting projects, or just having a chat about technology.
-            </p>
-            <p>
-              Feel free to reach out through the form or connect with me on social media!
-            </p>
-
-            <div className="contact-social">
-              <a href="https://github.com/prieyan" target="_blank" rel="noopener noreferrer" className="social-link">
-                <FaGithub />
-              </a>
-              <a href="https://www.linkedin.com/in/prieyanmn/" target="_blank" rel="noopener noreferrer" className="social-link">
-                <FaLinkedin />
-              </a>
-              <a href="https://www.instagram.com/prie.aur/" target="_blank" rel="noopener noreferrer" className="social-link">
-                <FaInstagram />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const App = () => {
-  return (
-    <div className="App">
-      <Header />
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Contact />
-    </div>
-  );
-};
-
-export default App;
+    <section id="skills" className="py-20 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Skills
